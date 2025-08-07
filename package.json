@@ -2,7 +2,7 @@
   "name": "comment-management-api",
   "version": "1.0.0",
   "description": "Secure comment management system with user authentication, built with PostgreSQL, Prisma ORM, and Node.js for Vercel deployment",
-  "main": "index.js",
+  "main": "dist/index.js",
   "type": "module",
   "scripts": {
     "dev": "vercel dev",
@@ -10,6 +10,7 @@
     "dev:build": "node build.js",
     "start": "node dist/index.js",
     "build": "node build.js && prisma generate",
+    "vercel-build": "npm run build",
     "postinstall": "prisma generate",
     "setup": "node setup.js",
     "db:push": "prisma db push",

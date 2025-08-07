@@ -68,7 +68,7 @@ console.log("1. Update your .env file with actual credentials");
 console.log('2. Run "npm run dev:local" to start development server');
 console.log('3. Run "npm run dev:build" to rebuild after changes');
 console.log("4. Test the API endpoints using curl or Postman");
-console.log('5. Deploy to Vercel using "vercel" command');
+console.log('5. Deploy to Vercel using "./deploy.sh" or "vercel" command');
 
 console.log("- API Endpoints:");
 console.log("- GET    /api/health                    - Health check");

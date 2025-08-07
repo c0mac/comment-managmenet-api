@@ -14,9 +14,10 @@ A secure comment management system with user authentication, built with PostgreS
 
 ## Prerequisites
 
-- Node.js =< 18.0.0
+- Node.js >= 18.0.0
 - npm or yarn
 - PostgreSQL database (or Prisma Accelerate)
+- Vercel account (for deployment)
 
 ## Development
 
@@ -42,6 +43,7 @@ npm run start          # Start production server
 npm run db:push        # Push schema to database
 npm run db:studio      # Open Prisma Studio
 npm run test           # Run API tests
+./deploy.sh           # Deploy to Vercel (requires Vercel CLI)
 ```
 
 ## API Documentation
@@ -306,6 +308,24 @@ CREATE TABLE comments (
   FOREIGN KEY (uid) REFERENCES users(id)
 );
 ```
+
+## Deployment
+
+### Quick Deploy to Vercel
+
+```bash
+# Install Vercel CLI (if not already installed)
+npm install -g vercel
+
+# Deploy using the provided script
+./deploy.sh
+
+# Or deploy manually
+npm run build
+vercel --prod
+```
+
+For detailed deployment instructions, see [DEPLOYMENT.md](./DEPLOYMENT.md).
 
 ## Configuration
 
