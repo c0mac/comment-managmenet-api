@@ -97,41 +97,47 @@ app.use((req, res) => {
   });
 });
 
-const server = app.listen(PORT, () => {
-  console.log(`✓ Development server running on http://localhost:${PORT}`);
-  console.log(`✓ Health check: http://localhost:${PORT}/api/health`);
-  console.log(`✓ API documentation: http://localhost:${PORT}/`);
-  console.log(`✓ Environment: ${NODE_ENV}`);
-});
+// Export the app for Vercel serverless functions
+export default app;
 
-process.on("SIGTERM", () => {
-  console.log("SIGTERM received, shutting down gracefully");
-  server.close(() => {
-    console.log("Server closed");
-    process.exit(0);
+// Only start the server if we're not in a serverless environment
+if (process.env.NODE_ENV !== "production" || process.env.VERCEL !== "1") {
+  const server = app.listen(PORT, () => {
+    console.log(`✓ Development server running on http://localhost:${PORT}`);
+    console.log(`✓ Health check: http://localhost:${PORT}/api/health`);
+    console.log(`✓ API documentation: http://localhost:${PORT}/`);
+    console.log(`✓ Environment: ${NODE_ENV}`);
   });
-});
 
-process.on("SIGINT", () => {
-  console.log("SIGINT received, shutting down gracefully");
-  server.close(() => {
-    console.log("Server closed");
-    process.exit(0);
+  process.on("SIGTERM", () => {
+    console.log("SIGTERM received, shutting down gracefully");
+    server.close(() => {
+      console.log("Server closed");
+      process.exit(0);
+    });
   });
-});
 
-process.on("uncaughtException", (error) => {
-  console.error("Uncaught Exception:", error);
-  server.close(() => {
-    console.log("Server closed due to uncaught exception");
-    process.exit(1);
+  process.on("SIGINT", () => {
+    console.log("SIGINT received, shutting down gracefully");
+    server.close(() => {
+      console.log("Server closed");
+      process.exit(0);
+    });
   });
-});
 
-process.on("unhandledRejection", (reason, promise) => {
-  console.error("Unhandled Rejection at:", promise, "reason:", reason);
-  server.close(() => {
-    console.log("Server closed due to unhandled rejection");
-    process.exit(1);
+  process.on("uncaughtException", (error) => {
+    console.error("Uncaught Exception:", error);
+    server.close(() => {
+      console.log("Server closed due to uncaught exception");
+      process.exit(1);
+    });
   });
-});
+
+  process.on("unhandledRejection", (reason, promise) => {
+    console.error("Unhandled Rejection at:", promise, "reason:", reason);
+    server.close(() => {
+      console.log("Server closed due to unhandled rejection");
+      process.exit(1);
+    });
+  });
+}
